@@ -2,58 +2,90 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Sum of Multiples</title>
-  <script>
-    // Function to calculate the sum of multiples of a or b below n
-    function sumOfMultiples(a, b, n) {
-      let sum = 0; // Initialize sum to 0
-      // Loop through all numbers from 1 to n-1
-      for (let i = 1; i < n; i++) {
-        // Check if i is a multiple of a or b
-        if (i % a === 0 || i % b === 0) {
-          sum += i; // Add i to sum if it's a multiple
-        }
-      }
-      return sum; // Return the final sum
+  <title>Adding Numbers Calculator</title>
+  <style>
+    body {
+      font-family: Arial;
+      margin: 20px;
     }
-
-    // Function triggered when the button is clicked
-    function calculateAndAlert() {
-      // Get values from the input fields
-      const a = parseInt(document.getElementById('inputA').value);
-      const b = parseInt(document.getElementById('inputB').value);
-      const n = parseInt(document.getElementById('inputN').value);
-
-      // Check if any input is not a valid number
-      if (isNaN(a) || isNaN(b) || isNaN(n)) {
-        alert("Please enter valid numbers for a, b, and n."); // Show alert if input is invalid
-        return; // Stop the function if input is invalid
-      }
-
-      // Call the function and store the result
-      const result = sumOfMultiples(a, b, n);
-      
-      // Show the result in an alert box
-      alert(`The sum of all multiples of ${a} or ${b} below ${n} is: ${result}`);
+    label {
+      display: block;
+      margin-top: 10px;
     }
-  </script>
+    .result {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-  <h2>Sum of Multiples Calculator</h2>
-
-  <!-- Input field for 'a' -->
-  <label for="inputA">Enter value for a:</label>
-  <input type="number" id="inputA"><br><br>
-
-  <!-- Input field for 'b' -->
-  <label for="inputB">Enter value for b:</label>
-  <input type="number" id="inputB"><br><br>
-
-  <!-- Input field for 'n' -->
-  <label for="inputN">Enter value for n:</label>
-  <input type="number" id="inputN"><br><br>
-
-  <!-- Button to trigger the calculation -->
-  <button onclick="calculateAndAlert()">Calculate</button>
+  <h1>Adding Special Numbers</h1>
+  
+  <p>This page helps you add up numbers that can be divided by certain values.</p>
+  <p>For example: If you enter 3 and 5 as your numbers, and 10 as your limit, it will add up: 3, 5, 6, and 9.</p>
+  
+  <!-- Input boxes -->
+  <label for="inputA">First number:</label>
+  <input type="number" id="inputA" value="3">
+  
+  <label for="inputB">Second number:</label>
+  <input type="number" id="inputB" value="5">
+  
+  <label for="inputN">Highest number to check:</label>
+  <input type="number" id="inputN" value="10">
+  
+  <!-- Button to run our calculation -->
+  <p>
+    <button onclick="doCalculation()">Calculate</button>
+  </p>
+  
+  <!-- Where we'll show the answer -->
+  <div id="result" class="result"></div>
+  <div id="numbersFound"></div>
+  
+  <script>
+    // This is our main function that runs when you click the button
+    function doCalculation() {
+      // Get the numbers from the input boxes
+      let firstNumber = document.getElementById('inputA').value;
+      let secondNumber = document.getElementById('inputB').value;
+      let highestNumber = document.getElementById('inputN').value;
+      
+      // Convert text to actual numbers
+      firstNumber = Number(firstNumber);
+      secondNumber = Number(secondNumber);
+      highestNumber = Number(highestNumber);
+      
+      // Check if the inputs are valid
+      if (firstNumber <= 0 || secondNumber <= 0 || highestNumber <= 0) {
+        alert("Please enter positive numbers only!");
+        return;
+      }
+      
+      // Start with zero and add numbers to it
+      let total = 0;
+      let foundNumbers = [];
+      
+      // Check each number from 1 up to our highest number
+      for (let i = 1; i < highestNumber; i++) {
+        // The % symbol checks if there's a remainder when dividing
+        // If the remainder is 0, it means the number divides evenly
+        if (i % firstNumber === 0 || i % secondNumber === 0) {
+          // This number works! Add it to our total
+          total = total + i;
+          // Remember this number to show the user
+          foundNumbers.push(i);
+        }
+      }
+      
+      // Show the answer
+      document.getElementById('result').innerHTML = 
+        "The sum is: " + total;
+      
+      // Show which numbers we added up
+      document.getElementById('numbersFound').innerHTML = 
+        "Numbers we added: " + foundNumbers.join(", ");
+    }
+  </script>
 </body>
 </html>
